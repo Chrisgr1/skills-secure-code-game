@@ -1,4 +1,39 @@
-'''
+from collections import namedtuple
+from decimal import Decimal
+
+Order = namedtuple('Order', 'id, items')
+Item = namedtuple('Item', 'type, description, amount, quantity')
+
+#bound payment amount 0<payment<9999999
+#bound invoice amount 0<payment<9999999
+
+#bound qty 0<qty<999
+
+
+
+
+def validorder(order: Order):
+    net = Decimal('0')
+
+    for item in order.items:
+        if 0 > item.amount > 1000000 == False:
+            return "Error"
+        if 0 > item.quantity > 100 == False:
+            return "Error"
+        if item.type == 'payment':
+            net += Decimal('item.amount')
+        elif item.type == 'product':
+            net -= Decimal('item.amount') * item.quantity
+        else:
+            return "Invalid item type: %s" % item.type
+
+    if net != 0:
+        return "Order ID: %s - Payment imbalance: $%0.2f" % (order.id, net)
+    else:
+        return "Order ID: %s - Full payment received!" % order.id
+    
+
+    '''
 Welcome to Secure Code Game Season-1/Level-1!
 
 Follow the instructions below to get started:
@@ -10,24 +45,3 @@ Follow the instructions below to get started:
 5. If stuck then read the hint
 6. Compare your solution with solution.py
 '''
-
-from collections import namedtuple
-
-Order = namedtuple('Order', 'id, items')
-Item = namedtuple('Item', 'type, description, amount, quantity')
-
-def validorder(order: Order):
-    net = 0
-
-    for item in order.items:
-        if item.type == 'payment':
-            net += item.amount
-        elif item.type == 'product':
-            net -= item.amount * item.quantity
-        else:
-            return "Invalid item type: %s" % item.type
-
-    if net != 0:
-        return "Order ID: %s - Payment imbalance: $%0.2f" % (order.id, net)
-    else:
-        return "Order ID: %s - Full payment received!" % order.id

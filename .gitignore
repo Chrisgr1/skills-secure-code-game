@@ -6,6 +6,10 @@
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 
+# venv
+bin/*
+pyvenv.cfg
+
 # Local History for Visual Studio Code
 .history/
 
