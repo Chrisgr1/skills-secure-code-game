@@ -16,10 +16,10 @@ def validorder(order: Order):
     net = Decimal('0')
 
     for item in order.items:
-        if 0 > item.amount > 1000000 == False:
-            return "Error"
-        if 0 > item.quantity > 100 == False:
-            return "Error"
+        if not (0 > item.amount > 1000000):
+            return "Order ID: %s - Payment imbalance: $%0.2f" % (order.id, -1*item.amount)
+        if not (0 > item.quantity > 100):
+            return "Order ID: %s - Payment imbalance: $%0.2f" % (order.id, -1*item.amount)
         if item.type == 'payment':
             net += Decimal('item.amount')
         elif item.type == 'product':
